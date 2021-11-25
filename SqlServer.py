@@ -1,12 +1,12 @@
-# coding:utf-8
 import pymssql
 import main
 import time
 
-class SqlServer():
-    server = "localhost:1433"  # 连接服务器地址
-    user = "sa"  # 连接帐号
-    password = "123456"  # 连接密码
+
+class SqlServer:
+    server = "localhost:1433"
+    user = "sa"
+    password = "123456"
     database = "myPYQ"
 
     conn = None
@@ -15,7 +15,7 @@ class SqlServer():
         pass
 
     def getConnect(self):
-        self.conn = pymssql.connect(self.server, self.user, self.password, self.database)  # 获取连接
+        self.conn = pymssql.connect(self.server, self.user, self.password, self.database)
         cursor = self.conn.cursor()
 
         return cursor

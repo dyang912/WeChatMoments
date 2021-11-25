@@ -3,7 +3,7 @@ import wx
 import time
 import main
 
-import xDialog
+import LoginDialog
 
 
 class PYQFrame(wx.Frame):
