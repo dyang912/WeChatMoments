@@ -1,39 +1,68 @@
-# coding:utf-8
+import getopt
+import sys
+
 import wx
+
+from model import SqlServer
 import guiManager as FrameManager
-'''
-def login_event(event):
-    id = user_text.GetValue()
-    pw = password_text.GetValue()
 
-
-def quit_event(event):     # 定义打开文件事件
-    frame.Close()
-'''
 USER = None
 
 
 class MainAPP(wx.App):
-
+    sql_server = None
     manager = None
     frame = None
 
+    def __init__(self, sql_server):
+        self.sql_server = sql_server
+        wx.App.__init__(self)
+
     def OnInit(self):
-        self.manager = FrameManager.GuiManager(self.UpdateUI)
-        self.frame = self.manager.GetFrame(0)
+        self.manager = FrameManager.GuiManager(self.UpdateUI, self.sql_server)
+        self.frame = self.manager.CreateFrame(0)
         self.frame.Show()
         return True
 
-    def UpdateUI(self, type):
+    def UpdateUI(self, frame_type):
         self.frame.Show(False)
-        self.frame = self.manager.GetFrame(type)
+        self.frame = self.manager.CreateFrame(frame_type)
         self.frame.Show(True)
 
 
-def main():
-    app = MainAPP()
+def main(argv):
+    user, pw = parse_arg(argv)
+    sql_server = SqlServer.SqlServer(user, pw)
+    app = MainAPP(sql_server)
     app.MainLoop()
 
 
+def parse_arg(argv):
+    user = ""
+    pw = ""
+    try:
+        opts, args = getopt.getopt(argv, "hu:p:", ["user=", "password="])
+    except getopt.GetoptError:
+        print("main.py -u <db user> -p <db password>")
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt == '-h':
+            print("main.py -u <db user> -p <db password>")
+            sys.exit()
+        elif opt in ("-u", "--user"):
+            user = arg
+        elif opt in ("-p", "--password"):
+            pw = arg
+        else:
+            assert False, "unhandled option"
+    if user == "":
+        print("missing db user")
+        sys.exit()
+    if pw == "":
+        print("missing db password")
+        sys.exit()
+    return user, pw
+
+
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1:])

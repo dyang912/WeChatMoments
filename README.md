@@ -1,11 +1,34 @@
 WeChatMoments
 -------------
-Implements the function of WeChat Moments, where the users can update real-time information and leave thumbs up or comments on other people’s shares. 
+WeChat Moments is a platform where users can update their real-time information and share their rich lives. 
+This project uses Python and MySQL to reproduce the WeChat Moments scenes includes functions of user registration and login, information post, 
+and liking or commenting on other people’s shares.
+
+Recommend Version
+-----------------
+`Python 3.7`
+`MySQL 8.0`
 
 Prerequisite
 ------------
-`pip install wxpython`
-`pip install `
+Install required library:
+```
+pip install wxpython mysql-connector-python
+```
 
+Run
+---
+```
+python main.py -u <database user> -p <database password>
+```
+
+Common Problems
 --------
-With the development of mobile phone applications and the continuous updating of social software, WeChat Moments has become an important social venue, which is a platform that facilitates online users to update their own dynamics in real time and at the same time showcase their rich lives. This course design, based on the accumulated database knowledge, realizes the WeChat Moments scene, reproduces the functions of users posting their own dynamic information, and can also like or comment on other people’s dynamic information, putting theoretical knowledge into practice
+* If you meet:
+
+    > Authentication plugin 'caching_sha2_password' cannot be loaded ...
+    
+    Try to run this in MySQL:
+    ```SQL 
+    ALTER USER 'username' IDENTIFIED WITH mysql_native_password BY 'password';
+    ```

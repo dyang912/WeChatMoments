@@ -1,25 +1,14 @@
-# coding=utf-8
-
-
-class GuiManager():
-    def __init__(self, UpdateUI):
-        self.UpdateUI = UpdateUI
-        self.frameDict = {}  # 用来装载已经创建的Frame对象
+class GuiManager:
+    def __init__(self, update_ui, sql_server):
+        self.sql_server = sql_server
+        self.update_ui = update_ui
+        self.frameDict = {}
         self.account = None
 
-    def GetFrame(self, type):
-        #frame = self.frameDict.get(type)
-
-        #if frame is None:
-            #frame = self.CreateFrame(type)
-            #self.frameDict[type] = frame
-
-        return self.CreateFrame(type)
-
-    def CreateFrame(self, type):
-        if type == 0:
-            import loginFrame
-            return loginFrame.LoginFrame(parent=None, id=type, UpdateUI=self.UpdateUI)
-        if type == 1:
-            import PYQFrame
-            return PYQFrame.PYQFrame(parent=None, id=type, UpdateUI=self.UpdateUI)
+    def CreateFrame(self, frame_type):
+        if frame_type == 0:
+            from frame import LoginFrame
+            return LoginFrame.LoginFrame(frame_id=frame_type, update_ui=self.update_ui, sql_server=self.sql_server)
+        if frame_type == 1:
+            from frame import MomentsFrame
+            return MomentsFrame.PYQFrame(id=frame_type, UpdateUI=self.update_ui, sql_server=self.sql_server)
